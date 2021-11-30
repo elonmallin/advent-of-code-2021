@@ -1,2 +1,3 @@
 # Advent of Code 2021
-- Having some fun coding, probably learning some Python while at it.
+- Having some fun coding
+- Testing out .NET interactive while at it
