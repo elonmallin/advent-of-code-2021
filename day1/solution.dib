@@ -1,0 +1,58 @@
+#!markdown
+
+# Advent of Code 2021
+https://adventofcode.com/2021/day/1
+
+# This is both part 1 and 2
+Set the variable `part2=true` if you want to run part 2.
+
+#!csharp
+
+var part2 = true;
+
+#!csharp
+
+using System.IO;
+using System.Linq;
+
+#!csharp
+
+var input = File
+    .ReadAllLines("input.txt")
+    .Select(p => Convert.ToInt32(p))
+    .ToList();
+
+#!csharp
+
+if (!part2) return;
+
+var lst = new List<int>();
+
+for (var i = 0; i < input.Count; ++i)
+{
+    if (i > input.Count - 3)
+    {
+        continue;
+    }
+
+    lst.Add(input[i] + input[i+1] + input[i+2]);
+}
+
+input = lst;
+
+#!csharp
+
+var lastDepth = int.MaxValue;
+var count = 0;
+
+foreach (var depth in input)
+{
+    if (depth > lastDepth)
+    {
+        count++;
+    }
+
+    lastDepth = depth;
+}
+
+count
