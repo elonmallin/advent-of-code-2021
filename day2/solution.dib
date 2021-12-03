@@ -1,0 +1,62 @@
+#!markdown
+
+# Advent of Code 2021
+https://adventofcode.com/2021/day/2
+
+#!csharp
+
+using System.IO;
+using System.Linq;
+
+#!markdown
+
+## Part 1
+
+#!csharp
+
+var input = File
+    .ReadAllLines("input.txt")
+    .Select(p => p switch {
+        var a when a.Contains("forward") => (Convert.ToInt32(a.Replace("forward ", "")), 0),
+        var b when b.Contains("down") => (0, Convert.ToInt32(b.Replace("down ", ""))),
+        var c when c.Contains("up") => (0, -Convert.ToInt32(c.Replace("up ", ""))),
+        _ => (0, 0)
+    })
+    .ToList();
+
+var pos = input.Aggregate((acc, n) => (acc.Item1 + n.Item1, acc.Item2 + n.Item2));
+
+pos.Item1 * pos.Item2
+
+#!markdown
+
+## Part 2
+
+#!csharp
+
+var input = File
+    .ReadAllLines("input.txt");
+
+var aim = 0;
+var position = ( x: 0, y: 0);
+foreach (var line in input)
+{
+    switch (line)
+    {
+        case var a when a.Contains("forward"):
+            var forward = Convert.ToInt32(a.Replace("forward ", ""));
+            position.x += forward;
+            position.y += aim * forward;
+            break;
+        case var b when b.Contains("down"):
+            var down = Convert.ToInt32(b.Replace("down ", ""));
+            aim += down;
+            break;
+        case var c when c.Contains("up"):
+            var up = Convert.ToInt32(c.Replace("up ", ""));
+            aim -= up;
+            break;
+    }
+}
+
+position.x * position.y
