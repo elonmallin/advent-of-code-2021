@@ -1,0 +1,39 @@
+#!markdown
+
+# Advent of Code 2021
+https://adventofcode.com/2021/day/3
+
+#!csharp
+
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+
+#!markdown
+
+## Part 1
+
+#!csharp
+
+var input = File
+    .ReadAllLines("input.txt");
+
+var arr = new int[12];
+foreach (var line in input)
+{
+    for (var i = 0; i < line.Length; ++i)
+    {
+        arr[i] += line[i] == '0' ? -1 : 1;
+    }
+}
+
+var gammaStr = "";
+foreach (var v in arr)
+{
+    gammaStr += v > 0 ? "1" : "0";
+}
+
+var gamma = Convert.ToInt32(gammaStr, 2);
+var epsilon = ~gamma & ((1 << 12) - 1);
+
+gamma * epsilon
