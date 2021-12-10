@@ -12,26 +12,14 @@ def make_bracket_table(parenthesis_val: int, square_val: int, curly_val: int, ar
     return { ')': parenthesis_val, ']': square_val, '}': curly_val, '>': arrow_val }
 
 
+# %%
 def get_close_char(open_or_close_char: str) -> str:
-    if open_or_close_char in ['(', ')']:
-        return ')'
-    elif open_or_close_char in ['[', ']']:
-        return ']'
-    elif open_or_close_char in ['{', '}']:
-        return '}'
-    elif open_or_close_char in ['<', '>']:
-        return '>'
-
-
-def get_open_char(open_or_close_char: str) -> str:
-    if open_or_close_char in ['(', ')']:
-        return '('
-    elif open_or_close_char in ['[', ']']:
-        return '['
-    elif open_or_close_char in ['{', '}']:
-        return '{'
-    elif open_or_close_char in ['<', '>']:
-        return '<'
+    return {
+        '(': ')', ')': ')',
+        '[': ']', ']': ']',
+        '{': '}', '}': '}',
+        '<': '>', '>': '>',
+    }[open_or_close_char]
 
 
 def back_track(idx, open_char, line):
@@ -80,6 +68,7 @@ def solve_part_1(data: list[str]) -> int:
 print(solve_part_1(data))
 
 
+# %%
 def fix_incomplete_syntax(line: str) -> str:
     fix = ''
     brackets = make_bracket_table(0, 0, 0, 0)
@@ -97,32 +86,17 @@ def fix_incomplete_syntax(line: str) -> str:
     return fix
 
 
-def calc_fix_score(fix: str, score_table: dict) -> int:
-    score = 0
-
-    for c in fix:
-        score = score * 5 + score_table[c]
-
-    return score
-
-
 def solve_part_2(data: list[str]) -> int:
     scores: list[int] = []
     score_table = make_bracket_table(1, 2, 3, 4)
 
-    i = len(data) -1
-    while i >= 0:
-        if lint_line(data[i], score_table) != 0:
-            data.pop(i)
-        i -= 1
-
     for line in data:
-        fix = fix_incomplete_syntax(line)
-        scores.append(calc_fix_score(fix, score_table))
+        if lint_line(line, score_table) == 0:
+            fix = fix_incomplete_syntax(line)
+            score = reduce(lambda acc, c: acc * 5 + score_table[c], fix, 0)
+            scores.append(score)
 
-    scores = sorted(scores)
-
-    return scores[int(len(scores)/2)]
+    return sorted(scores)[int(len(scores)/2)]
 
 
 print(solve_part_2(data))
