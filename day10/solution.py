@@ -78,3 +78,51 @@ def solve_part_1(data: list[str]) -> int:
 
 
 print(solve_part_1(data))
+
+
+def fix_incomplete_syntax(line: str) -> str:
+    fix = ''
+    brackets = make_bracket_table(0, 0, 0, 0)
+
+    for c in reversed(line):
+        for pair in [['(', ')'], ['[', ']'], ['{', '}'], ['<', '>']]:
+            if pair[0] == c:
+                if brackets[pair[1]] == 0:
+                    fix += pair[1]
+                else:
+                    brackets[pair[1]] -= 1
+            elif pair[1] == c:
+                brackets[pair[1]] += 1
+
+    return fix
+
+
+def calc_fix_score(fix: str, score_table: dict) -> int:
+    score = 0
+
+    for c in fix:
+        score = score * 5 + score_table[c]
+
+    return score
+
+
+def solve_part_2(data: list[str]) -> int:
+    scores: list[int] = []
+    score_table = make_bracket_table(1, 2, 3, 4)
+
+    i = len(data) -1
+    while i >= 0:
+        if lint_line(data[i], score_table) != 0:
+            data.pop(i)
+        i -= 1
+
+    for line in data:
+        fix = fix_incomplete_syntax(line)
+        scores.append(calc_fix_score(fix, score_table))
+
+    scores = sorted(scores)
+
+    return scores[int(len(scores)/2)]
+
+
+print(solve_part_2(data))
