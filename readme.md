@@ -8,3 +8,6 @@
 - 6 (code runspeed challenge)
 - 8 (digits)
 - 10 (syntax checker)
+
+# Day 11 part 1
+![Squid flashes](./day11/day11_part1.gif)
