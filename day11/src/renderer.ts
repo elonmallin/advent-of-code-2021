@@ -23,8 +23,8 @@ export const setup = (input: Array<Array<number>>) => {
 }
 
 let queue: any = []
-export const queueRender = (input: Array<Array<number>>, flashCount: number) => {
-    queue.push([input.map(x => x.slice()).slice(), flashCount]);
+export const queueRender = (input: Array<Array<number>>, flashCount: number, step: number) => {
+    queue.push([input.map(x => x.slice()).slice(), flashCount, step]);
 }
 
 let fpsInterval = 0;
@@ -33,7 +33,6 @@ let startTime = 0;
 
 export function startAnimating() {
     let flashCount = 0;
-    console.log('before', queue.length);
     queue = queue.reduce((acc: any, n: any) => {
         if (flashCount >= n[1]) {
             return acc;
@@ -43,7 +42,6 @@ export function startAnimating() {
 
         return acc;
     }, [])
-    console.log('after', queue.length);
 
     fpsInterval = 1000 / 120;
     then = Date.now();
@@ -88,6 +86,8 @@ const render = () => {
 
     const flashCountElm = document.getElementById('flash-count');
     flashCountElm.textContent = step[1].toString();
+    const stepCountElm = document.getElementById('step-count');
+    stepCountElm.textContent = (step[2] + 1).toString();
 
     for (let y = 0; y < step[0].length; y++) {
         for (let x = 0; x < step[0][0].length; x++) {

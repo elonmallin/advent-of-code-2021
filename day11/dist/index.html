@@ -49,6 +49,12 @@
         animation: flash 1s ease-out 0s 1;
         opacity: 0;
       }
+      header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+      }
 
       @keyframes flash {
         0% { padding: 0; opacity: 1; }
@@ -59,7 +65,10 @@
   </head>
   <body>
     <main>
-      <h1>⚡<p id="flash-count">0</p></h1>
+      <header>
+        <h1>👣<p id="step-count">0</p></h1>
+        <h1>⚡<p id="flash-count">0</p></h1>
+      </header>
     </main>
 
     <script src="bundle.js"></script>
