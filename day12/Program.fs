@@ -17,7 +17,7 @@ for line in File.ReadAllLines("input.txt") do
         paths.Item(parts[1]).Add(parts[0])
 
 
-let rec traverse (me: string, links: List<string>, paths: Dictionary<string, List<string>>, disallowed: string list, track: List<string>): int =
+let rec traverse (me: string, links: List<string>, paths: Dictionary<string, List<string>>, disallowed: string list, track: List<string>, enableTwice: bool): int =
     let mutable count = 0
 
     for link in links do
@@ -28,26 +28,27 @@ let rec traverse (me: string, links: List<string>, paths: Dictionary<string, Lis
             count <- count + 1
         elif not (List.contains link disallowed) then
             let dis = disallowed @ (if link = link.ToLower() then [link] else [])
-            count <- count + traverse (trackPath, paths[link], paths, dis, track)
+            count <- count + traverse (trackPath, paths[link], paths, dis, track, enableTwice)
+        elif enableTwice && not (List.contains "twice" disallowed) then
+            let dis = disallowed @ ["twice"]
+            count <- count + traverse (trackPath, paths[link], paths, dis, track, enableTwice)
 
     count
 
 
 let solvePart1 (paths: Dictionary<string, List<string>>) =
     let track = new List<string>()
-
-    let pathCount = traverse ("start", paths["start"], paths, ["start"], track)
-
+    let pathCount = traverse ("start", paths["start"], paths, ["start"], track, false)
+    
     pathCount
 
 
 let solvePart2 (paths: Dictionary<string, List<string>>) =
     let track = new List<string>()
-
-    let pathCount = traverse ("start", paths["start"], paths, ["start"], track)
+    let pathCount = traverse ("start", paths["start"], paths, ["start"], track, true)
 
     pathCount
 
 
-printfn "%i" (solvePart1 paths)
-// printfn "%i" (solvePart2 paths)
+printfn "Part 1: %i" (solvePart1 paths)
+printfn "Part 2: %i" (solvePart2 paths)
