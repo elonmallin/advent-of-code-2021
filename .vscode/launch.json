@@ -4,6 +4,17 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+    {
+        "name": "day12",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build",
+        "program": "${workspaceFolder}/day12/bin/Debug/net6.0/day12.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}/day12",
+        "stopAtEntry": false,
+        "console": "internalConsole"
+    },
         {
             "type": "pwa-chrome",
             "request": "launch",
