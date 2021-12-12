@@ -1,7 +1,8 @@
 # Advent of Code 2021
 - Having some fun coding
 - Testing out .NET interactive while at it
-- Switching to Python since .NET interactive can't debug
+- Day4: Switching to Python since .NET interactive can't debug
+- Day12: Trying out F#
 
 # Most fun so far
 - 5
