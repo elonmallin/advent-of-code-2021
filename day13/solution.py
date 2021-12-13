@@ -27,7 +27,9 @@ data = parse_input(input_file)
 def build_paper(positions: list[tuple[int, int]]) -> list[list[int]]:
     (width, height) = reduce(lambda acc, p: (max(acc[0], p[0]), max(acc[1], p[1])), positions, (0, 0))
 
-    paper = [[1 if (x, y) in positions else 0 for x in range(width+1)] for y in range(height+1)]
+    pos_dict = { (p[0], p[1]): 0 for p in positions } # Speed up the pos lookup in the list comprehension
+
+    paper = [[1 if (x, y) in pos_dict else 0 for x in range(width+1)] for y in range(height+1)]
 
     return paper
 
@@ -62,7 +64,7 @@ def solve_part_1(data: tuple[list[tuple[int, int]], list[tuple[str, int]]]) -> i
     return dot_count
 
 
-# print(solve_part_1(data))
+print(solve_part_1(data))
 
 
 def solve_part_2(data: tuple[list[tuple[int, int]], list[tuple[str, int]]]) -> str:
