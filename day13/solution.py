@@ -37,7 +37,7 @@ def fold_paper(paper: list[list[int]], fold: tuple[str, int]) -> list[list[int]]
         left = [[paper[y][x] for x in range(0, fold[1])] for y in range(len(paper))]
         right = [list(reversed([paper[y][x] for x in range(fold[1] + 1, len(paper[0]))])) for y in range(len(paper))]
 
-        # Merge lists, only center folds
+        # Merge lists, only center folds exist in input
         if len(left) == len(right):
             paper = [[min(1, left[y][x] + right[y][x]) for x in range(len(left[0]))] for y in range(len(left))]
 
@@ -45,7 +45,7 @@ def fold_paper(paper: list[list[int]], fold: tuple[str, int]) -> list[list[int]]
         top = [[paper[y][x] for x in range(len(paper[0]))] for y in range(0, fold[1])]
         bottom = list(reversed([[paper[y][x] for x in range(len(paper[0]))] for y in range(fold[1] + 1, len(paper))]))
 
-        # Merge lists, only center folds
+        # Merge lists, only center folds exist in input
         if len(top) == len(bottom):
             paper = [[min(1, top[y][x] + bottom[y][x]) for x in range(len(top[0]))] for y in range(len(top))]
 
@@ -62,4 +62,17 @@ def solve_part_1(data: tuple[list[tuple[int, int]], list[tuple[str, int]]]) -> i
     return dot_count
 
 
-print(solve_part_1(data))
+# print(solve_part_1(data))
+
+
+def solve_part_2(data: tuple[list[tuple[int, int]], list[tuple[str, int]]]) -> str:
+    (positions, folds) = data
+    paper = build_paper(positions)
+
+    for fold in folds:
+        paper = fold_paper(paper, fold)
+
+    return reduce(lambda acc, l: acc + ''.join('#' if i == 1 else ' ' for i in l) + '\n', paper, '')
+
+
+print(solve_part_2(data))
